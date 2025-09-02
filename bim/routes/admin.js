@@ -4,6 +4,7 @@ const adminControllers = require("../controllers/adminControllers");
 const auth = require("../middleware/auth");
 
 // Логін/логаут
+router.post("/register", adminControllers.register);
 router.post("/login", adminControllers.login);
 router.post("/logout", auth, adminControllers.logout);
 

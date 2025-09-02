@@ -6,3 +6,5 @@ function requireRole(role) {
     next();
   };
 }
+
+module.exports = requireRole;

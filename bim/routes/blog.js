@@ -1,16 +1,16 @@
 const express = require("express");
 const router = express.Router();
-const blogController = require("../controllers/blogController");
+const blogControllers= require("../controllers/blogControllers");
 const auth = require("../middleware/auth");
-const { requireRole } = require("../middleware/auth");
+const  requireRole = require("../middleware/role");
 
 // Публічні
-router.get("/", blogController.getAll);
-router.get("/:slug", blogController.getOne);
+router.get("/", blogControllers.getAll);
+router.get("/:slug", blogControllers.getOne);
 
 // Тільки адмін
-router.post("/", auth, requireRole("admin"), blogController.add);
-router.put("/:id", auth, requireRole("admin"), blogController.update);
-router.delete("/:id", auth, requireRole("admin"), blogController.remove);
+router.post("/", auth, requireRole("admin"), blogControllers.add);
+router.put("/:id", auth, requireRole("admin"), blogControllers.update);
+router.delete("/:id", auth, requireRole("admin"), blogControllers.remove);
 
 module.exports = router;

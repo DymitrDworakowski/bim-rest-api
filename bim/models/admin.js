@@ -3,14 +3,32 @@ const bcrypt = require("bcryptjs");
 
 const adminSchema = new mongoose.Schema(
   {
-    name: { type: String, required: true, trim: true, minLength: 2, maxLength: 50 },
+    name: {
+      type: String,
+      required: true,
+      trim: true,
+      minLength: 2,
+      maxLength: 50,
+    },
     password: { type: String, required: true, minLength: 8 },
-    email: { type: String, required: true, unique: true, lowercase: true, trim: true },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      lowercase: true,
+      trim: true,
+    },
     token: { type: String, default: null },
     avatarURL: { type: String, default: null },
     isActive: { type: Boolean, default: true },
     lastLogin: { type: Date, default: null },
+    role: {
+      type: String,
+      enum: ["admin", "editor"],
+      default: "admin",
+    },
   },
+
   { versionKey: false, timestamps: true }
 );
 
