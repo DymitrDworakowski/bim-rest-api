@@ -21,6 +21,25 @@ exports.getAll = async (req, res) => {
   }
 };
 
+// 📖 Публічні блоги для сайту
+exports.getPublic = async (req, res) => {
+  try {
+    const now = new Date();
+
+    // знайти пости, які вже опубліковані або дата публікації минула
+    const posts = await Blog.find({
+      $or: [
+        { isPublished: true },
+        { publishDate: { $lte: now } }
+      ]
+    }).sort({ publishDate: -1 });
+
+    res.json(posts);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 // 🔍 Отримати один пост по slug
 exports.getOne = async (req, res) => {
   try {
@@ -56,3 +75,4 @@ exports.remove = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
