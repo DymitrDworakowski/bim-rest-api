@@ -6,7 +6,7 @@ const  requireRole = require("../middleware/role");
 
 // Публічні
 router.get("/public",blogControllers.getPublic)
-router.get("/", blogControllers.getAll);
+// router.get("/", blogControllers.getAll);
 router.get("/:slug", blogControllers.getOne);
 
 // Тільки адмін

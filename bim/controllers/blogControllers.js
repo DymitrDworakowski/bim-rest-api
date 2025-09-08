@@ -25,13 +25,10 @@ exports.getAll = async (req, res) => {
 exports.getPublic = async (req, res) => {
   try {
     const now = new Date();
-
-    // знайти пости, які вже опубліковані або дата публікації минула
+ // тільки блоги, які опубліковані і дата публікації вже настала
     const posts = await Blog.find({
-      $or: [
-        { isPublished: true },
-        { publishDate: { $lte: now } }
-      ]
+      isPublished: true,
+      publishDate: { $lte: now }
     }).sort({ publishDate: -1 });
 
     res.json(posts);
