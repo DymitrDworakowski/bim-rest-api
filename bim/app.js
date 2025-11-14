@@ -23,10 +23,12 @@ app.use(
 // 👇 Імпорт роутів
 const routerAdmin = require("./routes/admin");
 const blogRoutes = require("./routes/blog");
+const formRoutes = require("./routes/formRoutes"); // <-- додано
 
 // 👇 Підключення роутів
 app.use("/api/auth", routerAdmin);
 app.use("/api/blog", blogRoutes);
+app.use("/api/form", formRoutes); // <-- додано
 
 // catch 404
 app.use((req, res, next) => {
