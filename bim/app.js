@@ -11,6 +11,9 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// serve images from /public/images -> available at http://localhost:PORT/images/...
+app.use("/images", express.static(path.join(__dirname, "public", "images")));
+
 app.use(
   cors({
     origin: "*",
