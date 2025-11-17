@@ -21,6 +21,8 @@ async function handleSignup(req, res) {
       name: `${firstName} ${lastName}`,
       courseName,
     });
+     // Надсилаємо сповіщення адміністратору окремо
+    await resendService.sendAdminNotification({ name: `${firstName} ${lastName}`, courseName, userEmail: email, phone });
 
     return res.status(201).json({ ok: true, clientId: client._id });
   } catch (err) {

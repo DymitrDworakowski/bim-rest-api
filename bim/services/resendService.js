@@ -3,7 +3,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 const FROM_EMAIL = process.env.FROM_EMAIL || "onboarding@resend.dev";
 
-// ТВОЯ ПОШТА ДЛЯ КОПІЇ
+// ТВОЯ ПОШТА ДЛЯ КОПІЇ (використовується тільки для окремого листа)
 const ADMIN_EMAIL = "kontakt@bimup.pl";
 
 async function sendThankYouEmail({ to, name, courseName }) {
@@ -31,12 +31,36 @@ async function sendThankYouEmail({ to, name, courseName }) {
     </p>
   `;
 
+  // Надсилаємо лише користувачу
   await resend.emails.send({
     from: FROM_EMAIL,
-    to: [to, ADMIN_EMAIL],   // <-- ТУТ НАДСИЛАЄМО ДВОМ ОДРАЗУ
+    to: to,   // <-- ТЕПЕР ЛИШЕ ОДНА АДРЕСА
     subject,
     html,
   });
 }
 
-module.exports = { sendThankYouEmail };
+// ОКРЕМА ФУНКЦІЯ ДЛЯ АДМІНІСТРАТОРА
+async function sendAdminNotification({ name, courseName, userEmail, phone }) {
+  const adminSubject = `Nowy zapis na kurs: ${courseName}`;
+  
+  const adminHtml = `
+    <p>Nowy użytkownik zapisał się na kurs:</p>
+    <ul>
+      <li><strong>Kurs:</strong> ${courseName}</li>
+      <li><strong>Imię:</strong> ${name}</li>
+      <li><strong>Email:</strong> ${userEmail}</li>
+      <li><strong>Telefon:</strong> ${phone}</li>
+      <li><strong>Data:</strong> ${new Date().toLocaleString('pl-PL')}</li>
+    </ul>
+  `;
+
+  await resend.emails.send({
+    from: FROM_EMAIL,
+    to: ADMIN_EMAIL,
+    subject: adminSubject,
+    html: adminHtml,
+  });
+}
+
+module.exports = { sendThankYouEmail, sendAdminNotification };
